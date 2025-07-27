@@ -11,11 +11,9 @@ To ensure data credibility and represent diverse perspectives, the following cat
 - Government Websites
 Examples: gov.za, presidency.gov.za, dirco.gov.za
 Content: Official positions, appointments, and department structures.
-
 - News Outlets
 Examples: news24.com, mg.co.za, timeslive.co.za, iol.co.za
 Content: Media coverage of political activity, scandals, and public statements.
-
 - Political Party Platforms
 Examples: da.org.za, effonline.org
 Content: Leadership bios, political messaging, and campaign news.
