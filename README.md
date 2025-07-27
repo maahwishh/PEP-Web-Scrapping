@@ -31,7 +31,7 @@ Python-based scraping scripts were used to extract structured information from t
 - Source Type Classification: Each source was categorized (Government, News, Political Party).
 
 3. Relevance and Quality Assurance\
-   Spot Checks: Random manual reviews ensured accuracy and logical consistency.
+Spot Checks: Random manual reviews ensured accuracy and logical consistency.
 To maintain high data quality and compliance alignment:
 
 - Geographic Filtering: Only South African (.za) domains were scraped.
