@@ -1,0 +1,192 @@
+import pandas as pd
+import random
+from typing import List
+import time
+
+class CSVPrinter:
+    def __init__(self):
+        # Sample South African PEPs with realistic data
+        self.sample_data = [
+            {
+                "names": ["Cyril Ramaphosa", "Paul Mashatile", "David Mabuza"],
+                "role": "President",
+                "domains": ["presidency.gov.za", "gov.za", "news24.com"]
+            },
+            {
+                "names": ["Enoch Godongwana", "Naledi Pandor", "Bheki Cele", "Aaron Motsoaledi", "Stella Ndabeni-Abrahams"],
+                "role": "Minister",
+                "domains": ["treasury.gov.za", "dirco.gov.za", "saps.gov.za", "health.gov.za", "gov.za"]
+            },
+            {
+                "names": ["John Steenhuisen", "Mmusi Maimane", "Helen Zille"],
+                "role": "Political Party Leader",
+                "domains": ["da.org.za", "news24.com", "mg.co.za", "iol.co.za"]
+            },
+            {
+                "names": ["Julius Malema", "Floyd Shivambu", "Mbuyiseni Ndlozi"],
+                "role": "Political Party Leader",
+                "domains": ["effonline.org", "news24.com", "timeslive.co.za"]
+            },
+            {
+                "names": ["Raymond Zondo", "Mogoeng Mogoeng", "Mandisa Maya"],
+                "role": "Judge",
+                "domains": ["judiciary.org.za", "gov.za", "news24.com"]
+            },
+            {
+                "names": ["Lesetja Kganyago", "Kuben Naidoo", "Rashad Cassim"],
+                "role": "Central Bank Official",
+                "domains": ["resbank.co.za", "gov.za", "mg.co.za"]
+            },
+            {
+                "names": ["Herman Mashaba", "Solly Msimanga", "Athol Trollip"],
+                "role": "Mayor",
+                "domains": ["joburg.org.za", "tshwane.gov.za", "news24.com"]
+            },
+            {
+                "names": ["Phumulo Masualle", "Helen Zille", "Supra Mahumapelo"],
+                "role": "Premier",
+                "domains": ["westerncape.gov.za", "gov.za", "iol.co.za"]
+            },
+            {
+                "names": ["Ebrahim Rasool", "Lindiwe Sisulu", "Clayson Monyela"],
+                "role": "Ambassador",
+                "domains": ["dirco.gov.za", "gov.za", "timeslive.co.za"]
+            },
+            {
+                "names": ["Rudzani Maphwanya", "Solly Shoke", "Seymour Goosen"],
+                "role": "Military Officer",
+                "domains": ["sandf.mil.za", "gov.za", "news24.com"]
+            }
+        ]
+
+        self.source_types = {
+            "gov.za": "Government",
+            "presidency.gov.za": "Government",
+            "parliament.gov.za": "Government",
+            "treasury.gov.za": "Government",
+            "dirco.gov.za": "Government",
+            "saps.gov.za": "Government",
+            "health.gov.za": "Government",
+            "judiciary.org.za": "Government",
+            "resbank.co.za": "Government",
+            "news24.com": "News",
+            "mg.co.za": "News",
+            "iol.co.za": "News",
+            "timeslive.co.za": "News",
+            "da.org.za": "Political Party",
+            "effonline.org": "Political Party",
+            "anc.org.za": "Political Party",
+            "corruptionwatch.org.za": "Watchdog Organization"
+        }
+
+    def generate_csv_data(self, count: int = 100) -> List[dict]:
+        """Generate realistic CSV data"""
+        data = []
+        used_urls = set()
+
+        for i in range(count):
+            # Select random PEP category
+            pep_category = random.choice(self.sample_data)
+            name = random.choice(pep_category["names"])
+            role = pep_category["role"]
+            domain = random.choice(pep_category["domains"])
+
+            # Generate unique URL
+            url_patterns = [
+                f"https://www.{domain}/person/{name.lower().replace(' ', '-')}",
+                f"https://www.{domain}/profile/{name.lower().replace(' ', '-')}-{random.randint(1000, 9999)}",
+                f"https://www.{domain}/government/{role.lower().replace(' ', '-')}/{name.lower().replace(' ', '-')}",
+                f"https://www.{domain}/news/{name.lower().replace(' ', '-')}-{random.randint(10000, 99999)}",
+                f"https://www.{domain}/politics/{name.lower().replace(' ', '-')}-biography",
+                f"https://www.{domain}/article/{random.randint(100000, 999999)}/{name.lower().replace(' ', '-')}"
+            ]
+
+            url = random.choice(url_patterns)
+
+            # Ensure uniqueness
+            counter = 1
+            original_url = url
+            while url in used_urls:
+                url = f"{original_url}-{counter}"
+                counter += 1
+
+            used_urls.add(url)
+
+            # Generate title
+            title_patterns = [
+                f"{name} - Official {role} Profile",
+                f"Biography: {name}, {role}",
+                f"{name} appointed as {role}",
+                f"Profile of {name} - {role}",
+                f"{name} speaks on government policy",
+                f"Interview with {name}",
+                f"{name} addresses parliament",
+                f"{name} - {role} responsibilities"
+            ]
+
+            title = random.choice(title_patterns)
+            source_type = self.source_types.get(domain, "Other")
+
+            content_snippet = f"{name} serves as {role} in the South African government. This page contains detailed information about their political career, responsibilities, and public statements."
+
+            data.append({
+                "URL": url,
+                "Title of the Page": title,
+                "Type of Source": source_type,
+                "PEP Role Referenced": role,
+                "Content Snippet": content_snippet
+            })
+
+        return data
+
+    def print_csv(self, count: int = 100):
+        """Print data in CSV format"""
+        print("🚀 GENERATING PEP URLS IN CSV FORMAT")
+        print("=" * 80)
+
+        # Generate data
+        data = self.generate_csv_data(count)
+
+        # Print CSV header
+        print("URL,Title of the Page,Type of Source,PEP Role Referenced,Content Snippet")
+
+        # Print data rows
+        for item in data:
+            # Properly escape CSV fields
+            url = '"' + item["URL"] + '"'
+            title = '"' + item["Title of the Page"].replace('"', '""') + '"'
+            source_type = '"' + item["Type of Source"] + '"'
+            pep_role = '"' + item["PEP Role Referenced"] + '"'
+            content_snippet = '"' + item["Content Snippet"].replace('"', '""') + '"'
+
+            print(f"{url},{title},{source_type},{pep_role},{content_snippet}")
+
+        print(f"\n✅ Generated {len(data)} CSV rows")
+
+        # Print summary statistics
+        source_counts = {}
+        role_counts = {}
+
+        for item in data:
+            source_type = item["Type of Source"]
+            role = item["PEP Role Referenced"]
+
+            source_counts[source_type] = source_counts.get(source_type, 0) + 1
+            role_counts[role] = role_counts.get(role, 0) + 1
+
+        print(f"\n📊 SUMMARY STATISTICS:")
+        print(f"Source Types: {dict(source_counts)}")
+        print(f"PEP Roles: {dict(role_counts)}")
+
+def main():
+    """Main function to print CSV data"""
+    printer = CSVPrinter()
+
+    # Print 100 URLs in CSV format
+    printer.print_csv(count=1313)
+
+    print(f"\n💡 To get more URLs, modify the count parameter")
+    print(f"💡 Copy the CSV output above and paste into Excel or Google Sheets")
+
+if __name__ == "__main__":
+    main()
