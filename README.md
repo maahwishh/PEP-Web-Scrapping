@@ -32,11 +32,11 @@ Due to environment constraints, simulated data was generated via a Python script
 ### 3. Relevance and Quality Assurance
 Measures taken to maintain data reliability and integrity:
 
-- ✅ Geographic Filtering: Only .za domains or South Africa-specific content included.
-- ✅ Role Validation: Only FATF/World Bank PEP roles allowed.
-- ✅ Manual Domain Review: Domains were vetted and categorized prior to use.
-- ✅ Content Diversity: Templates avoided repetition; uniqueness enforced on all URLs.
-- ✅ Spot Checks: Randomly sampled entries validated for logic and realism.
+- Geographic Filtering: Only .za domains or South Africa-specific content included.
+- Role Validation: Only FATF/World Bank PEP roles allowed.
+- Manual Domain Review: Domains were vetted and categorized prior to use.
+- Content Diversity: Templates avoided repetition; uniqueness enforced on all URLs.
+- Spot Checks: Randomly sampled entries validated for logic and realism.
 
 ## 💡 Key Insights
 - Government domains offer structured and trustworthy data for identifying official roles.
